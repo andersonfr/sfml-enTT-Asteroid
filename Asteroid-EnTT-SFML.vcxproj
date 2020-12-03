@@ -76,8 +76,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\SFML\include;$(SolutionDir)Dependencies\enTT\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +139,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="maincpp.cpp" />
+    <ClCompile Include="src\App\App.cpp" />
+    <ClCompile Include="src\App\Game.cpp" />
+    <ClCompile Include="src\App\SceneManager.cpp" />
+    <ClCompile Include="src\Components\InputComponent.cpp" />
+    <ClCompile Include="src\maincpp.cpp" />
+    <ClCompile Include="src\Scenes\GameplayScene.cpp" />
+    <ClCompile Include="src\Systems\GenericSystem.cpp" />
+    <ClCompile Include="src\Systems\Movement2dSystem.cpp" />
+    <ClCompile Include="src\Systems\Render2dSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\App\App.h" />
+    <ClInclude Include="src\App\Game.h" />
+    <ClInclude Include="src\App\SceneManager.h" />
+    <ClInclude Include="src\Components\MovementComponent.h" />
+    <ClInclude Include="src\Components\RenderComponent.h" />
+    <ClInclude Include="src\Components\TransformComponent.h" />
+    <ClInclude Include="src\Scenes\EndGameScene.h" />
+    <ClInclude Include="src\Scenes\GameplayScene.h" />
+    <ClInclude Include="src\Scenes\MenuScene.h" />
+    <ClInclude Include="src\Scenes\Scene.h" />
+    <ClInclude Include="src\Systems\GenericSystem.h" />
+    <ClInclude Include="src\Systems\Movement2dSystem.h" />
+    <ClInclude Include="src\Systems\Render2dSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
