@@ -2,7 +2,6 @@
 #include <memory>
 #include "Game.h"
 
-
 class App 
 {
 public:

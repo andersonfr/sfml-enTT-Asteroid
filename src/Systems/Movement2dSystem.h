@@ -10,4 +10,5 @@ public:
 	void Update(float deltaTime) override;
 private:
 	sf::RenderWindow* m_window;
+	void CheckWindowBoundaries(sf::Vector2f& pos);
 };

@@ -1,32 +1,87 @@
 #include "Render2dSystem.h"
 #include "../Components/RenderComponent.h"
 #include "../Components/TransformComponent.h"
+#include "../Components/MovementComponent.h"
+
 
 void Render2dSystem::Render()
 {
 	//draw spaceship
-	m_registry->view<Render2dSpaceshipComponent, TransformComponent>().each
-	([&](auto ship, Render2dSpaceshipComponent& render, TransformComponent& transform) 
+	m_registry->view<Render2dSpaceshipComponent, TransformComponent, Movement2dShipComponent>().each
+	([&](auto ship, Render2dSpaceshipComponent& render, TransformComponent& transform, Movement2dShipComponent& movement)
 	{
-		size_t size = 4;
+		int size = 3;
 		sf::Vector2f p = transform.position;
-
-		sf::Vector2f p1 = p + render.m_model[0];
-		sf::Vector2f p2 = p + render.m_model[1];
-		sf::Vector2f p3 = p + render.m_model[2];
-		sf::Vector2f p4 = p + render.m_model[3];
-
-		sf::Vertex model[4]
+		//rotate model
+		sf::Vector2f rotate[3];
+		float angle = movement.angle;
+		float angleRad = ToRadians(angle);
+		for (int i = 0; i < size; i++) 
 		{
-			 sf::Vertex(p1, render.m_color),
-			 sf::Vertex(p2, render.m_color),
-			 sf::Vertex(p3, render.m_color),
-			 sf::Vertex(p4, render.m_color)
-		};
-
-		m_window->draw(model, size, sf::LinesStrip);
+			rotate[i].x = render.m_model[i].x * cosf(angleRad) - render.m_model[i].y * sinf(angleRad);
+			rotate[i].y = render.m_model[i].x * sinf(angleRad) + render.m_model[i].y * cosf(angleRad);
+		}
+		//translate model
+		sf::Vector2f translate[3];
+		for (int i = 0; i < size; i++)
+		{
+			translate[i] = p + rotate[i];
+		}
+		//draw model
+		sf::Vertex model[2];
+		for (int i = 0; i < size; i++)
+		{
+			model[0] = sf::Vertex(translate[i], render.m_color);
+			model[1] = sf::Vertex(translate[(i + 1) % size], render.m_color);
+			m_window->draw(model, 2, sf::Lines);
+		}
 	});
 	//draw asteroids
 	//TODO
+	m_registry->view<Render2dAsteroidComponent, TransformComponent, Movement2dAsteroidComponent>().each
+	([&](auto asteroid, Render2dAsteroidComponent& render, TransformComponent& transform, Movement2dAsteroidComponent& movement)
+	{
+			int size = 20;
+			sf::Vector2f p = transform.position;
+			//rotate model
+			sf::Vector2f rotate[20];
+			float angle = 18.0f;
+			
+			for (int i = 0; i < size; i++)
+			{
+				float angleRad = ToRadians(angle * i);
+				rotate[i].x = render.m_model[i].x * cosf(angleRad) - render.m_model[i].y * sinf(angleRad);
+				rotate[i].y = render.m_model[i].x * sinf(angleRad) + render.m_model[i].y * cosf(angleRad);
+			}
+			//translate model
+			sf::Vector2f translate[20];
+			for (int i = 0; i < size; i++)
+			{
+				translate[i] = p + rotate[i];
+			}
+			//draw model
+			sf::Vertex model[2];
+			for (int i = 0; i < size; i++)
+			{
+				model[0] = sf::Vertex(translate[i], render.m_color);
+				model[1] = sf::Vertex(translate[(i + 1) % size], render.m_color);
+				m_window->draw(model, 2, sf::Lines);
+			}
 
+	});
+	//draw bullets
+	m_registry->view<Render2dProjectileComponent, TransformComponent, Movement2dProjectileComponent>().each
+	([&](auto projectile, Render2dProjectileComponent& render, TransformComponent& transform, Movement2dProjectileComponent& move)
+	{
+		sf::Vector2f p = transform.position;
+		/*if (move.m_lifeTime > 0.0f) */
+		{
+			render.m_bullet.setPosition(p);
+			render.m_bullet.setSize(transform.scale);
+			render.m_bullet.setFillColor(sf::Color::Black);
+			render.m_bullet.setOutlineThickness(1.0f);
+			render.m_bullet.setOutlineColor(sf::Color::White);
+			m_window->draw(render.m_bullet);
+		}
+	});
 }

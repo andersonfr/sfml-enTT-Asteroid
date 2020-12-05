@@ -3,7 +3,7 @@
 void Game::OnInit()
 {
 	//TODO
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1366, 768), "Asteroid Game");
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "Asteroid Game");
 	m_window->getSize();
 	
 	m_sceneManager.Init(*m_window,m_registry);
@@ -21,13 +21,17 @@ void Game::OnEnd()
 void Game::HandleEvents()
 {
 	sf::Event event;
-
+	//handle system events
 	while (m_window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 		{
 			OnEnd();	
-		}		
+		}
+		if (event.type == sf::Event::KeyPressed) 
+		{
+			int x = 0;
+		}
 	}
 }
 

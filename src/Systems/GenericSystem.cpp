@@ -1,4 +1,5 @@
 #include "GenericSystem.h"
+#include "../Utils/Utils.h"
 
 void GenericSystem::Init(entt::registry * registry)
 {

@@ -1,32 +1,59 @@
 #include "Movement2dSystem.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/MovementComponent.h"
+#include "../Components/InputComponent.h"
 
 void Movement2dSystem::Update(float deltaTime)
 {
-	m_registry->view<Movement2dComponent, TransformComponent>().each
-	([&](auto ship, Movement2dComponent& move, TransformComponent& transform)
+	m_registry->view<Movement2dShipComponent, TransformComponent>(entt::exclude<Input2dComponent>).each
+	([&](auto ent, Movement2dShipComponent& move, TransformComponent& transform)
 		{
 			transform.position += move.m_velocity * deltaTime;
-			sf::Vector2u windowSize = m_window->getSize();
-			if (transform.position.x > windowSize.x) 
-			{
-				transform.position.x = 0.0f;
-			}
-			
-			if (transform.position.y > windowSize.y) 
-			{
-				transform.position.y = 0.0f;
-			}
-
-			if (transform.position.x < 0.0f)
-			{
-				transform.position.x = windowSize.x;
-			}
-
-			if (transform.position.y < 0.0f)
-			{
-				transform.position.y = windowSize.y;
-			}
+			CheckWindowBoundaries(transform.position);
 		});
+
+	m_registry->view<Movement2dShipComponent, TransformComponent>().each
+	([&](auto ship, Movement2dShipComponent& move, TransformComponent& transform) 
+		{
+			transform.position += move.m_velocity * deltaTime;
+			CheckWindowBoundaries(transform.position);
+		}
+	);
+
+	m_registry->view<Movement2dProjectileComponent, TransformComponent>().each
+	([&](auto projectile, Movement2dProjectileComponent& move, TransformComponent& transform)
+		{
+			transform.position += move.m_velocity * deltaTime;
+			move.m_lifeTime -= deltaTime;
+			if (move.m_lifeTime < 0.0f)
+			{
+				m_registry->destroy(projectile);
+			}
+			CheckWindowBoundaries(transform.position);
+		}
+	);
+}
+
+void Movement2dSystem::CheckWindowBoundaries(sf::Vector2f & pos)
+{
+	sf::Vector2u windowSize = m_window->getSize();
+	if (pos.x > windowSize.x)
+	{	
+		pos.x = 0.0f;
+	}	
+		
+	if (pos.y > windowSize.y)
+	{	
+		pos.y = 0.0f;
+	}	
+		
+	if (pos.x < 0.0f)
+	{	
+		pos.x = windowSize.x;
+	}	
+		
+	if (pos.y < 0.0f)
+	{	
+		pos.y = windowSize.y;
+	}
 }

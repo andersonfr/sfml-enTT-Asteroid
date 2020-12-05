@@ -13,4 +13,6 @@ public:
 	void Render() override;
 private:
 	void SpawnSpaceShip();
+	void SpawnProjectile(float shipAngle, sf::Vector2f shipPos);
+	entt::delegate<void(float,sf::Vector2f)> m_onPlayerFire{};
 };

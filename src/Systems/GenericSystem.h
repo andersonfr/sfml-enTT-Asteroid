@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entt.hpp>
+#include "../Utils/Utils.h"
 
 class GenericSystem 
 {
