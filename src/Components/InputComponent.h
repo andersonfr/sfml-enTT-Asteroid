@@ -20,7 +20,6 @@ struct Input2dComponent
 	sf::Keyboard::Key downKey;
 	
 	sf::Keyboard::Key fireKey;
-
 };
 
 struct InputMovementComponent 

@@ -36,8 +36,7 @@ void Render2dSystem::Render()
 			m_window->draw(model, 2, sf::Lines);
 		}
 	});
-	//draw asteroids
-	//TODO
+	//draw asteroids	
 	m_registry->view<Render2dAsteroidComponent, TransformComponent, Movement2dAsteroidComponent>().each
 	([&](auto asteroid, Render2dAsteroidComponent& render, TransformComponent& transform, Movement2dAsteroidComponent& movement)
 	{
@@ -57,15 +56,18 @@ void Render2dSystem::Render()
 			sf::Vector2f translate[20];
 			for (int i = 0; i < size; i++)
 			{
-				translate[i] = p + rotate[i];
+				sf::Vector2f pos = p + rotate[i];
+				//CheckWindowBoundaries(pos, *m_window);
+				translate[i] = pos;
 			}
+
 			//draw model
 			sf::Vertex model[2];
 			for (int i = 0; i < size; i++)
 			{
 				model[0] = sf::Vertex(translate[i], render.m_color);
 				model[1] = sf::Vertex(translate[(i + 1) % size], render.m_color);
-				m_window->draw(model, 2, sf::Lines);
+				m_window->draw(model, 2, sf::LinesStrip);
 			}
 
 	});
@@ -84,4 +86,28 @@ void Render2dSystem::Render()
 			m_window->draw(render.m_bullet);
 		}
 	});
+}
+
+void CheckWindowBoundaries(sf::Vector2f & pos, sf::RenderWindow& window)
+{
+	sf::Vector2u windowSize = window.getSize();
+	if (pos.x > windowSize.x)
+	{
+		pos.x -= windowSize.x;
+	}
+
+	if (pos.y > windowSize.y)
+	{
+		pos.y -= windowSize.y;
+	}
+
+	if (pos.x < 0.0f)
+	{
+		pos.x += windowSize.x;
+	}
+
+	if (pos.y < 0.0f)
+	{
+		pos.y += windowSize.y;
+	}
 }

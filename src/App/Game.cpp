@@ -1,10 +1,11 @@
 #include "Game.h"
 
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
 void Game::OnInit()
 {
-	//TODO
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800, 600), "Asteroid Game");
-	m_window->getSize();
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroid Game");
 	
 	m_sceneManager.Init(*m_window,m_registry);
 
@@ -14,7 +15,6 @@ void Game::OnInit()
 void Game::OnEnd()
 {
 	m_registry.clear();
-	//m_sceneManager
 	m_window->close();
 }
 
@@ -27,10 +27,6 @@ void Game::HandleEvents()
 		if (event.type == sf::Event::Closed)
 		{
 			OnEnd();	
-		}
-		if (event.type == sf::Event::KeyPressed) 
-		{
-			int x = 0;
 		}
 	}
 }

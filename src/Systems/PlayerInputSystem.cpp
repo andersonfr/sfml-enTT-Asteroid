@@ -5,7 +5,6 @@
 
 void PlayerInputSystem::Update(float deltaTime)
 {
-	sf::Event event;
 	m_registry->view<Input2dComponent, Movement2dShipComponent, TransformComponent>().each
 	([&](auto ent, Input2dComponent& input, Movement2dShipComponent& movement, TransformComponent& transform)
 	{
@@ -14,27 +13,33 @@ void PlayerInputSystem::Update(float deltaTime)
 			float angle = movement.angle;
 			float angleRad = ToRadians(angle);
 			sf::Vector2f thrust{ sinf(angleRad), -cosf(angleRad) };
-			thrust *= 50 * deltaTime;
+			thrust *= 10 * deltaTime;
 			movement.m_velocity += thrust;
+		
 		}
 
-		if (sf::Keyboard::isKeyPressed(input.downKey)) 
+		/*if (sf::Keyboard::isKeyPressed(input.downKey)) 
 		{
 			float angle = movement.angle;
 			float angleRad = angle * M_PIl / 180.0f;
 			sf::Vector2f thrust{ sinf(angleRad), -cosf(angleRad) };
 			thrust *= -10 * deltaTime;
 			movement.m_velocity += thrust;
-		}
+		}*/
 
 		if (sf::Keyboard::isKeyPressed(input.rightKey)) 
 		{
 			movement.angle += movement.turnDegree * deltaTime;
+			if (movement.angle > 360)
+				movement.angle = 360 - movement.angle;
+			
 		}
 
 		if (sf::Keyboard::isKeyPressed(input.leftKey))
 		{
 			movement.angle -= movement.turnDegree * deltaTime;
+			if (movement.angle < 0)
+				movement.angle = 360 + movement.angle;
 		}
 		
 		if (sf::Keyboard::isKeyPressed(input.fireKey))

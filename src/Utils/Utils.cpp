@@ -13,3 +13,15 @@ float RandomRange(float range_from, float range_to)
 	return distr(generator);
 	
 }
+
+float VectorLength(float x, float y)
+{
+	return sqrtf(x * x + y * y);
+}
+
+void NormalizeVector(float& x, float &y) 
+{
+	float length = VectorLength(x, y);
+	x = x / length;
+	y = y / length;
+}

@@ -82,7 +82,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SFML\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -143,7 +143,10 @@
     <ClCompile Include="src\App\Game.cpp" />
     <ClCompile Include="src\App\SceneManager.cpp" />
     <ClCompile Include="src\maincpp.cpp" />
+    <ClCompile Include="src\Resources\Resources.cpp" />
     <ClCompile Include="src\Scenes\GameplayScene.cpp" />
+    <ClCompile Include="src\Scenes\MenuScene.cpp" />
+    <ClCompile Include="src\Systems\Collision2dSystem.cpp" />
     <ClCompile Include="src\Systems\GenericSystem.cpp" />
     <ClCompile Include="src\Systems\Movement2dSystem.cpp" />
     <ClCompile Include="src\Systems\PlayerInputSystem.cpp" />
@@ -154,14 +157,17 @@
     <ClInclude Include="src\App\App.h" />
     <ClInclude Include="src\App\Game.h" />
     <ClInclude Include="src\App\SceneManager.h" />
+    <ClInclude Include="src\Components\CollisionComponent.h" />
     <ClInclude Include="src\Components\InputComponent.h" />
     <ClInclude Include="src\Components\MovementComponent.h" />
     <ClInclude Include="src\Components\RenderComponent.h" />
     <ClInclude Include="src\Components\TransformComponent.h" />
+    <ClInclude Include="src\Resources\Resources.h" />
     <ClInclude Include="src\Scenes\EndGameScene.h" />
     <ClInclude Include="src\Scenes\GameplayScene.h" />
     <ClInclude Include="src\Scenes\MenuScene.h" />
     <ClInclude Include="src\Scenes\Scene.h" />
+    <ClInclude Include="src\Systems\Collision2dSystem.h" />
     <ClInclude Include="src\Systems\GenericSystem.h" />
     <ClInclude Include="src\Systems\Movement2dSystem.h" />
     <ClInclude Include="src\Systems\PlayerInputSystem.h" />

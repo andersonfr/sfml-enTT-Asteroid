@@ -1,16 +1,15 @@
 #include "SceneManager.h"
 
-
-
 void SceneManager::Init(sf::RenderWindow& window, entt::registry& registry)
 {
 	m_window = &window;
 
 	m_gamplayScene = std::make_unique<GameplayScene>(*this,registry);
-	/*m_endGameScene = std::make_unique<EndGameScene>(this,registry);
-	m_menuScene = std::make_unique<MenuScene>(this,registry);*/
+	/*m_endGameScene = std::make_unique<EndGameScene>(this,registry);*/
+	m_menuScene = std::make_unique<MenuScene>(*this,registry);
 
-	ToGameplayScene();
+	//ToGameplayScene();
+	ToMenuScene();
 }
 
 void SceneManager::ToMenuScene()
